@@ -62,4 +62,4 @@ function App() {
 }
 
 export default App;
-export const ASSET_URL = "https://pub-d7eb3d6be3af490fbd0fe6f5ac2d726d.r2.dev";
+export const ASSET_URL = "https://media.mthds.dev";
