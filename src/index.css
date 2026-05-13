@@ -1,0 +1,74 @@
+/* --- خطوط Kia Signature للإنجليزي --- */
+@font-face {
+  font-family: 'KiaSignature';
+  src: url('/fonts/KiaSignatureLight.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KiaSignature';
+  src: url('/fonts/KiaSignatureRegular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KiaSignature';
+  src: url('/fonts/KiaSignatureBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- خطوط GE SS Two للعربي --- */
+@font-face {
+  font-family: 'GESSTwo';
+  src: url('/fonts/GE-SS-Two-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GESSTwo';
+  src: url('/fonts/GE-SS-Two-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GESSTwo';
+  src: url('/fonts/GE-SS-Two-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #05141f;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+@layer utilities {
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+
+    100% {
+      transform: scale(2.5);
+      opacity: 0;
+    }
+  }
+}
