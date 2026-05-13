@@ -61,6 +61,7 @@ export default function ExteriorSequence() {
 
     for (let i = 0; i < frameCount; i++) {
       const img = new Image();
+      img.crossOrigin = "anonymous";
       const num = i.toString().padStart(2, '0');
       img.src = `${baseUrl}${num}.webp`;
       if (i === 0) {
@@ -72,6 +73,7 @@ export default function ExteriorSequence() {
     sliderData.forEach((slide, idx) => {
       if (slide.type === "static" && slide.src) {
         const img = new Image();
+        img.crossOrigin = "anonymous";
         img.src = slide.src;
         staticImages.current[idx] = img;
       }

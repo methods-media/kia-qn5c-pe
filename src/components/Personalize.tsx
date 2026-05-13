@@ -49,6 +49,7 @@ export default function Personalize() {
         for (let i = 0; i < totalFrames; i++) {
             const num = i.toString().padStart(2, '0');
             const extImg = new Image();
+            extImg.crossOrigin = "anonymous";
             extImg.src = `${extBaseUrl}${num}.webp`;
             extImages.current.push(extImg);
         }
