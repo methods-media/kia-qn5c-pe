@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ASSET_URL } from '../App';
+const frameCount = 30;
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,7 +27,7 @@ export default function InteriorSequence() {
       if (images.current.length > 0) return; // Prevent multiple loads
       const baseUrl = `${ASSET_URL}/seqs/int/kia-nq5e-pe-intrseq-`;
 
-      for (let i = 0; i < frameCount; i++) {
+      for (let i = 2; i <= 30; i++) {
         const img = new Image();
         img.crossOrigin = "anonymous";
         const num = i.toString().padStart(2, '0');
