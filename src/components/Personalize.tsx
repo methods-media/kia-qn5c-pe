@@ -45,10 +45,9 @@ export default function Personalize() {
     useEffect(() => {
         const loadImages = () => {
             if (extImages.current.length > 0) return; // Prevent multiple loads
-            const totalFrames = 72;
             const extBaseUrl = `${ASSET_URL}/360/kia-nq5e-pe-ext360-`;
 
-            for (let i = 0; i < totalFrames; i++) {
+            for (let i = 0; i < 72; i++) {
                 const num = i.toString().padStart(2, '0');
                 const extImg = new Image();
                 extImg.crossOrigin = "anonymous";
@@ -157,7 +156,7 @@ export default function Personalize() {
 
         // Toggle UI Box dynamically when clicking (delta < 5) on the 360 views
         if (Math.abs(clientX - dragStartX.current) < 5 && (viewMode === 'ext360' || viewMode === 'int360')) {
-            setShowUI(!showUI);
+            setShowUI(prev => !prev);
         }
     };
 
@@ -208,8 +207,9 @@ export default function Personalize() {
                         src={`${ASSET_URL}/360/kia-nq5e-pe-interior360.jpg`}
                         height="100vh"
                         width="100%"
-                        onClick={() => setShowUI(!showUI)}
+                        onClick={() => setShowUI(prev => !prev)}
                         navbar={false}
+                        mousewheel={false}
                     />
                 </div>
             </div>
