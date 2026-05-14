@@ -56,9 +56,10 @@ export default function ExteriorSequence() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const frameCount = 60;
+    
     const loadImages = () => {
       if (images.current.length > 0) return; // Prevent multiple loads
-      const frameCount = 60;
       const baseUrl = `${ASSET_URL}/seqs/ext/kia-nq5e-pe-heroseq-`;
 
       for (let i = 0; i < frameCount; i++) {

@@ -20,9 +20,10 @@ export default function InteriorSequence() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const frameCount = 30;
+
     const loadImages = () => {
       if (images.current.length > 0) return; // Prevent multiple loads
-      const frameCount = 30;
       const baseUrl = `${ASSET_URL}/seqs/int/kia-nq5e-pe-intrseq-`;
 
       for (let i = 0; i < frameCount; i++) {
