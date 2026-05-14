@@ -56,28 +56,42 @@ export default function ExteriorSequence() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const frameCount = 60;
-    const baseUrl = `${ASSET_URL}/seqs/ext/kia-nq5e-pe-heroseq-`;
+    const loadImages = () => {
+      if (images.current.length > 0) return; // Prevent multiple loads
+      const frameCount = 60;
+      const baseUrl = `${ASSET_URL}/seqs/ext/kia-nq5e-pe-heroseq-`;
 
-    for (let i = 0; i < frameCount; i++) {
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      const num = i.toString().padStart(2, '0');
-      img.src = `${baseUrl}${num}.webp`;
-      if (i === 0) {
-        img.onload = () => renderCanvas(img);
-      }
-      images.current.push(img);
-    }
-
-    sliderData.forEach((slide, idx) => {
-      if (slide.type === "static" && slide.src) {
+      for (let i = 0; i < frameCount; i++) {
         const img = new Image();
         img.crossOrigin = "anonymous";
-        img.src = slide.src;
-        staticImages.current[idx] = img;
+        const num = i.toString().padStart(2, '0');
+        img.src = `${baseUrl}${num}.webp`;
+        if (i === 0) {
+          img.onload = () => renderCanvas(img);
+        }
+        images.current.push(img);
       }
-    });
+
+      sliderData.forEach((slide, idx) => {
+        if (slide.type === "static" && slide.src) {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.src = slide.src;
+          staticImages.current[idx] = img;
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        loadImages();
+        observer.disconnect();
+      }
+    }, { rootMargin: "1500px" });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
 
     const renderCanvas = (imgToDraw: HTMLImageElement) => {
       if (!imgToDraw || !imgToDraw.complete) return;
@@ -143,6 +157,7 @@ export default function ExteriorSequence() {
     return () => {
       window.removeEventListener('resize', handleResize);
       ctxGsap.revert();
+      observer.disconnect();
     };
   }, []);
 

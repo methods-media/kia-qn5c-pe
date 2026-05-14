@@ -41,18 +41,34 @@ export default function Personalize() {
     // Refs for Preloaded Images 
     const extImages = useRef<HTMLImageElement[]>([]);
 
-    // 1. تحميل صور الـ 360 الخارجي (Preloading)
+    // 1. تحميل صور الـ 360 الخارجي (Preloading lazily)
     useEffect(() => {
-        const totalFrames = 72;
-        const extBaseUrl = `${ASSET_URL}/360/kia-nq5e-pe-ext360-`;
+        const loadImages = () => {
+            if (extImages.current.length > 0) return; // Prevent multiple loads
+            const totalFrames = 72;
+            const extBaseUrl = `${ASSET_URL}/360/kia-nq5e-pe-ext360-`;
 
-        for (let i = 0; i < totalFrames; i++) {
-            const num = i.toString().padStart(2, '0');
-            const extImg = new Image();
-            extImg.crossOrigin = "anonymous";
-            extImg.src = `${extBaseUrl}${num}.webp`;
-            extImages.current.push(extImg);
+            for (let i = 0; i < totalFrames; i++) {
+                const num = i.toString().padStart(2, '0');
+                const extImg = new Image();
+                extImg.crossOrigin = "anonymous";
+                extImg.src = `${extBaseUrl}${num}.webp`;
+                extImages.current.push(extImg);
+            }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                loadImages();
+                observer.disconnect();
+            }
+        }, { rootMargin: "1500px" });
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
         }
+
+        return () => observer.disconnect();
     }, []);
 
     // 2. رسم الصورة على الـ Canvas بناءً على الفريم الحالي للمود الخارجي

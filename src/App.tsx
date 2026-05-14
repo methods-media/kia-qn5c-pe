@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar.tsx';
-import ExteriorSequence from './components/ExteriorSequence.tsx';
-import WheelbaseStretch from './components/WheelbaseStretch';
-import InteriorSequence from './components/InteriorSequence.tsx';
-import InteriorFeatures from './components/InteriorFeatures.tsx';
-import Personalize from './components/Personalize.tsx';
-import Performance from './components/Performance.tsx';
-import SafetyFeatures from './components/SafetyFeatures.tsx';
-import Dimensions from './components/Dimensions.tsx';
-import Trims from './components/Trims.tsx';
 import Footer from './components/Footer';
 import { ChevronUp } from 'lucide-react';
 
+const ExteriorSequence = lazy(() => import('./components/ExteriorSequence.tsx'));
+const WheelbaseStretch = lazy(() => import('./components/WheelbaseStretch'));
+const InteriorSequence = lazy(() => import('./components/InteriorSequence.tsx'));
+const InteriorFeatures = lazy(() => import('./components/InteriorFeatures.tsx'));
+const Personalize = lazy(() => import('./components/Personalize.tsx'));
+const Performance = lazy(() => import('./components/Performance.tsx'));
+const SafetyFeatures = lazy(() => import('./components/SafetyFeatures.tsx'));
+const Dimensions = lazy(() => import('./components/Dimensions.tsx'));
+const Trims = lazy(() => import('./components/Trims.tsx'));
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -28,18 +28,26 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const FallbackLoader = () => (
+    <div className="h-screen w-full bg-[#05141f] flex items-center justify-center">
+      <div className="w-12 h-12 border-4 border-white/10 border-t-red-500 rounded-full animate-spin"></div>
+    </div>
+  );
+
   return (
     <main className="bg-[#05141f] min-h-screen overflow-x-hidden relative">
       <Navbar />
-      <div id="exterior"><ExteriorSequence /></div>
-      <div id="wheelbase"><WheelbaseStretch /></div>
-      <div id="interior-sequence"><InteriorSequence /></div>
-      <div id="interior"><InteriorFeatures /></div>
-      <div id="personalize"><Personalize /></div>
-      <div id="performance"><Performance /></div>
-      <div id="safety"><SafetyFeatures /></div>
-      <div id="dimensions"><Dimensions /></div>
-      <div id="trims"><Trims /></div>
+      <Suspense fallback={<FallbackLoader />}>
+        <div id="exterior"><ExteriorSequence /></div>
+        <div id="wheelbase"><WheelbaseStretch /></div>
+        <div id="interior-sequence"><InteriorSequence /></div>
+        <div id="interior"><InteriorFeatures /></div>
+        <div id="personalize"><Personalize /></div>
+        <div id="performance"><Performance /></div>
+        <div id="safety"><SafetyFeatures /></div>
+        <div id="dimensions"><Dimensions /></div>
+        <div id="trims"><Trims /></div>
+      </Suspense>
       <Footer />
 
       {/* Floating UI Elements */}
