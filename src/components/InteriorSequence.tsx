@@ -20,7 +20,6 @@ export default function InteriorSequence() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const frameCount = 30;
 
     const loadImages = () => {
       if (images.current.length > 0) return; // Prevent multiple loads
@@ -102,7 +101,7 @@ export default function InteriorSequence() {
       });
 
       tl.to(frameObj.current, {
-        frame: frameCount - 1,
+        frame: 30,
         ease: "none",
         duration: 1
       }, 0);

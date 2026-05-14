@@ -135,7 +135,7 @@ export default function ExteriorSequence() {
       });
 
       tl.to(frameObj.current, {
-        frame: frameCount - 1,
+        frame: 60,
         ease: "none",
         duration: 1
       }, 0);
