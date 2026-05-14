@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Settings, ShieldCheck, ChevronLeft, ChevronRight, Road, Gauge } from 'lucide-react';
 import { ASSET_URL } from '../App';
-const frameCount = 60;
 
 gsap.registerPlugin(ScrollTrigger);
 
