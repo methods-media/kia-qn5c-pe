@@ -9,6 +9,7 @@ const InteriorSequence = lazy(() => import('./components/InteriorSequence.tsx'))
 const InteriorFeatures = lazy(() => import('./components/InteriorFeatures.tsx'));
 const Personalize = lazy(() => import('./components/Personalize.tsx'));
 const Performance = lazy(() => import('./components/Performance.tsx'));
+const Powertrains = lazy(() => import('./components/Powertrains.tsx'));
 const SafetyFeatures = lazy(() => import('./components/SafetyFeatures.tsx'));
 const Dimensions = lazy(() => import('./components/Dimensions.tsx'));
 const Trims = lazy(() => import('./components/Trims.tsx'));
@@ -44,6 +45,7 @@ function App() {
         <div id="interior"><InteriorFeatures /></div>
         <div id="personalize"><Personalize /></div>
         <div id="performance"><Performance /></div>
+        <div id="powertrains"><Powertrains /></div>
         <div id="safety"><SafetyFeatures /></div>
         <div id="dimensions"><Dimensions /></div>
         <div id="trims"><Trims /></div>

@@ -70,7 +70,7 @@ export default function Performance() {
                     loop
                     playsInline
                     // لو مفيش فيديو هيعرض الصورة دي كـ Fallback مؤقتاً
-                    poster={`${ASSET_URL}/seq/ext/kia-nq5e-pe-heroseq-00.webp`}
+                    poster={`${ASSET_URL}/seq/ext/kia-nq5e-pe-heroseq-01.webp`}
                 />
                 {/* Gradient Overlay علشان الكلام يبان */}
                 <div className="absolute inset-0 bg-gradient-to-b from-[#06141F]/100 via-transparent to-[#05141f]/100"></div>
@@ -87,7 +87,7 @@ export default function Performance() {
                     <h2 className="text-white font-sans text-4xl md:text-4xl lg:text-4xl font-bold mt-2 tracking-tight">
                         Go Anywhere With Ease
                     </h2>
-                    <div className="w-[200px] h-[1px] bg-white mt-6"></div>
+                    <div className="w-[20%] h-[1px] bg-white mt-6"></div>
                 </div>
 
                 {/* مميزات الأداء اللي تحت */}

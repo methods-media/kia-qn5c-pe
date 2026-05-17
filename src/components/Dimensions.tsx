@@ -188,7 +188,7 @@ export function Dimensions() {
           <div className="flex-1 relative flex items-center justify-center" style={{ perspective: '1200px' }}>
             <div ref={carContainerRef} className="relative w-full max-w-6xl opacity-0">
               <img
-                src={activeDim === 'width' ? `${ASSET_URL}/stills/sportage-dimensions-width.png` : 'https://methods.ae/prototypes/materials/sportage-l/swp_01.png'}
+                src={activeDim === 'width' ? `${ASSET_URL}/stills/sportage-dimensions-width.png` : `${ASSET_URL}/stills/sportage-dimensions.png`}
                 alt={activeDim === 'width' ? "Kia Sportage Front View" : "Kia Sportage Side View"}
                 className="w-full h-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)] transition-all duration-500"
                 style={{ maxHeight: '600px' }}

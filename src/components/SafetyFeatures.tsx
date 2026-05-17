@@ -34,7 +34,7 @@ const sliderItems = [
         type: "video",
         src: `${ASSET_URL}/vids/kia-nq5e-pe-pca.mp4`,
         title: "Parking Collision Avoidance Assist (PCA)",
-        description: "The Sportage's front, side and rear parking assist feature makes manoeuvring into and out of parking spaces easier. It detects pedestrians or obstacles in the area, provides warnings and, if there is an increased risk of collision, applies automatic emergency braking for added protection."
+        description: "The Sportage’s front, side, and rear sensors make maneuvering into and out of parking spaces easier. The system detects pedestrians or nearby obstacles, provides warnings, and, when there is an increased risk of collision, automatically applies emergency braking for added protection."
     },
     {
         id: 4,
@@ -62,7 +62,7 @@ const sliderItems = [
         type: "image",
         src: `${ASSET_URL}/stills/kia-nq5e-pe-ota.png`,
         title: "Connected Car Services & Over the Air Updates",
-        description: "Connected Car Services & OTA” to: Kia Connect is your gateway to a smarter, more connected driving experience, seamlessly linking your Kia to your smartphone. From remote engine start to keyless driving, Kia Connect enhances convenience at every journey. With Over-the-Air (OTA) updates, your vehicle’s software and features stay up to date automatically and wirelessly, without the need for dealership visits."
+        description: "Kia Connect is your gateway to a smarter, more connected driving experience, seamlessly linking your Kia to your smartphone. From remote engine start to keyless driving, Kia Connect enhances convenience at every journey. With Over-the-Air (OTA) updates, your vehicle’s software and features stay up to date automatically and wirelessly, without the need for dealership visits."
     },
     {
         id: 8,
@@ -108,7 +108,7 @@ export default function SafetyFeatures() {
                 <div ref={headerRef} className="mb-12 opacity-0">
                     <span className="text-white/50 uppercase tracking-[0.2em] font-sans text-lg font-medium">Drive Wise</span>
                     <h2 className="text-white font-sans text-4xl md:text-4xl font-bold mt-2">A Smarter Way to Drive</h2>
-                    <div className="w-[120px] h-[1px] bg-white mt-6"></div>
+                    <div className="w-[20%] h-[1px] bg-white mt-6"></div>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-12 lg:gap-5">

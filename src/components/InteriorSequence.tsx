@@ -50,8 +50,10 @@ export default function InteriorSequence() {
 
     const renderCanvas = (imgToDraw: HTMLImageElement) => {
       if (!imgToDraw || !imgToDraw.complete) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
       const ratio = Math.max(canvas.width / imgToDraw.width, canvas.height / imgToDraw.height);
       const cx = (canvas.width - imgToDraw.width * ratio) / 2;
       const cy = (canvas.height - imgToDraw.height * ratio) / 2;
@@ -93,8 +95,8 @@ export default function InteriorSequence() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=150%",
-          scrub: 0.5,
+          end: "+=100%",
+          scrub: 0.15,
           pin: true,
           onUpdate: renderCurrentState
         }

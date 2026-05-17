@@ -24,14 +24,16 @@ export default function Personalize() {
     const sectionRef = useRef<HTMLElement>(null);
     const boxRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const colorNameRef = useRef<HTMLParagraphElement>(null);
 
     // States
     const [viewMode, setViewMode] = useState<'color' | 'ext360' | 'int360'>('color');
     const [selectedColor, setSelectedColor] = useState(colors[0]);
     const [isDragging, setIsDragging] = useState(false);
-    const [frameIndex, setFrameIndex] = useState(0);
     const [showUI, setShowUI] = useState(true);
     const [panoOffset, setPanoOffset] = useState(0);
+
+    const frameIndexRef = useRef(0);
 
     // Refs for Dragging Logic
     const dragStartX = useRef(0);
@@ -47,7 +49,7 @@ export default function Personalize() {
             if (extImages.current.length > 0) return; // Prevent multiple loads
             const extBaseUrl = `${ASSET_URL}/360/kia-nq5e-pe-ext360-`;
 
-            for (let i = 0; i < 72; i++) {
+            for (let i = 1; i <= 72; i++) {
                 const num = i.toString().padStart(2, '0');
                 const extImg = new Image();
                 extImg.crossOrigin = "anonymous";
@@ -70,33 +72,46 @@ export default function Personalize() {
         return () => observer.disconnect();
     }, []);
 
-    // 2. رسم الصورة على الـ Canvas بناءً على الفريم الحالي للمود الخارجي
-    useEffect(() => {
-        if (viewMode !== 'ext360') return;
-
+    const drawCanvas = () => {
         const canvas = canvasRef.current;
         const ctx = canvas?.getContext('2d');
         if (!canvas || !ctx) return;
 
-        const imgToDraw = extImages.current[frameIndex];
+        const imgToDraw = extImages.current[frameIndexRef.current];
+        if (!imgToDraw || !imgToDraw.complete) return;
 
-        const render = () => {
-            if (!imgToDraw || !imgToDraw.complete) return;
+        if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            const ratio = Math.max(canvas.width / imgToDraw.width, canvas.height / imgToDraw.height);
-            const cx = (canvas.width - imgToDraw.width * ratio) / 2;
-            const cy = (canvas.height - imgToDraw.height * ratio) / 2;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(imgToDraw, 0, 0, imgToDraw.width, imgToDraw.height, cx, cy, imgToDraw.width * ratio, imgToDraw.height * ratio);
-        };
-
-        if (imgToDraw?.complete) {
-            render();
-        } else if (imgToDraw) {
-            imgToDraw.onload = render;
         }
-    }, [frameIndex, viewMode]);
+        const ratio = Math.max(canvas.width / imgToDraw.width, canvas.height / imgToDraw.height);
+        const cx = (canvas.width - imgToDraw.width * ratio) / 2;
+        const cy = (canvas.height - imgToDraw.height * ratio) / 2;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(imgToDraw, 0, 0, imgToDraw.width, imgToDraw.height, cx, cy, imgToDraw.width * ratio, imgToDraw.height * ratio);
+    };
+
+    // 2. رسم الصورة على الـ Canvas بناءً على الفريم الحالي للمود الخارجي
+    useEffect(() => {
+        if (viewMode !== 'ext360') return;
+
+        const imgToDraw = extImages.current[frameIndexRef.current];
+        if (imgToDraw?.complete) {
+            drawCanvas();
+        } else if (imgToDraw) {
+            imgToDraw.onload = drawCanvas;
+        }
+    }, [viewMode]);
+
+    // Text animation for color name
+    useEffect(() => {
+        if (viewMode === 'color' && colorNameRef.current) {
+            gsap.fromTo(colorNameRef.current,
+                { opacity: 0, y: 10 },
+                { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+            );
+        }
+    }, [selectedColor, viewMode]);
 
     // 3. أنيميشن السكرول للبوكس
     useEffect(() => {
@@ -123,7 +138,7 @@ export default function Personalize() {
         setIsDragging(true);
         const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
         dragStartX.current = clientX;
-        dragStartFrame.current = frameIndex;
+        dragStartFrame.current = frameIndexRef.current;
         dragStartPanoOffset.current = panoOffset;
     };
 
@@ -133,10 +148,13 @@ export default function Personalize() {
         const deltaX = clientX - dragStartX.current;
 
         if (viewMode === 'ext360') {
-            const framesToMove = Math.floor(deltaX / 10);
+            const framesToMove = Math.floor(deltaX / 12);
             let newFrame = (dragStartFrame.current + framesToMove) % 72; // reversed dragging logic
             if (newFrame < 0) newFrame += 72;
-            setFrameIndex(newFrame);
+            if (frameIndexRef.current !== newFrame) {
+                frameIndexRef.current = newFrame;
+                requestAnimationFrame(drawCanvas);
+            }
         } else if (viewMode === 'int360') {
             // Pan interior panorama image
             setPanoOffset(dragStartPanoOffset.current + deltaX);
@@ -229,23 +247,35 @@ export default function Personalize() {
                         <span className="block text-white/50 font-sans text-md uppercase tracking-[0.1em] text-left mb-1">Personalize</span>
                         <h2 className="text-white font-sans font-semibold text-2xl mb-8 text-left">Choose Your Color</h2>
 
-                        {/* زراير الألوان */}
-                        <div className="flex justify-center gap-2 mb-4">
-                            {colors.map((color) => (
+                        {/* زراير الألوان أو زر العودة للألوان الخارحية */}
+                        {viewMode === 'color' ? (
+                            <>
+                                <div className="flex justify-center gap-2 mb-4">
+                                    {colors.map((color) => (
+                                        <button
+                                            key={color.id}
+                                            onClick={() => {
+                                                setViewMode('color');
+                                                setSelectedColor(color);
+                                            }}
+                                            className={`w-8 h-8 rounded-full border-2 transition-all duration-300 ${selectedColor.id === color.id && viewMode === 'color' ? 'scale-110 border-white' : 'border-transparent hover:border-white/50'}`}
+                                            style={{ backgroundColor: color.hex }}
+                                            title={color.name}
+                                        />
+                                    ))}
+                                </div>
+                                <p ref={colorNameRef} className="text-white font-sans text-lg mb-4 text-center">{selectedColor.name}</p>
+                            </>
+                        ) : (
+                            <div className="flex justify-center mb-8">
                                 <button
-                                    key={color.id}
-                                    onClick={() => {
-                                        setViewMode('color');
-                                        setSelectedColor(color);
-                                    }}
-                                    className={`w-8 h-8 rounded-full border-2 transition-all duration-300 ${selectedColor.id === color.id && viewMode === 'color' ? 'scale-110 border-white' : 'border-transparent hover:border-white/50'}`}
-                                    style={{ backgroundColor: color.hex }}
-                                    title={color.name}
-                                />
-                            ))}
-                        </div>
-
-                        <p className="text-white font-sans text-lg mb-4 text-center">{selectedColor.name}</p>
+                                    onClick={() => setViewMode('color')}
+                                    className="py-2 px-6 rounded-xl font-sans font-medium text-white border border-white/20 hover:bg-white/10 transition-colors"
+                                >
+                                    Exterior Colors
+                                </button>
+                            </div>
+                        )}
 
                         <hr className="border-white/20 mb-5" />
 
@@ -257,7 +287,7 @@ export default function Personalize() {
 
                         <div className="flex gap-4">
                             <button
-                                onClick={() => { setViewMode('ext360'); setFrameIndex(0); setShowUI(true); }}
+                                onClick={() => { setViewMode('ext360'); frameIndexRef.current = 0; setShowUI(true); }}
                                 className={`flex-1 py-3 px-4 rounded-xl font-sans font-bold text-md transition-colors ${viewMode === 'ext360' ? 'bg-[#06141F] text-[#FFFFFF] border border-[#2a4059]' : 'bg-[#FFFFFF] text-[#06141F]-700 hover:text-[#FFFFFF] hover:bg-[#06141F] border border-transparent'}`}
                             >
                                 Exterior

@@ -10,7 +10,7 @@ const sliderData = [
 
   {
     title: "Star-map Signature Lighting",
-    desc: "The striking new bumper and grille bring a strong dose of emotion and confidence to the design, seamlessly connecting with the signature Star Map daytime running lights for an even more impressive overall impression.",
+    desc: "Kia’s signature Star-map daytime running lights and redesigned radiator grille come together to create a more confident front design and an instantly recognizable presence.",
     type: "sequence"
   },
   {
@@ -94,8 +94,10 @@ export default function ExteriorSequence() {
 
     const renderCanvas = (imgToDraw: HTMLImageElement) => {
       if (!imgToDraw || !imgToDraw.complete) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
       const ratio = Math.max(canvas.width / imgToDraw.width, canvas.height / imgToDraw.height);
       const cx = (canvas.width - imgToDraw.width * ratio) / 2;
       const cy = (canvas.height - imgToDraw.height * ratio) / 2;
@@ -122,8 +124,8 @@ export default function ExteriorSequence() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=200%",
-          scrub: 0.5,
+          end: "+=120%",
+          scrub: 0.15,
           pin: true,
           onUpdate: () => {
             if (slideIndexRef.current !== 0) {
@@ -170,8 +172,10 @@ export default function ExteriorSequence() {
 
     const renderCanvas = (imgToDraw: HTMLImageElement) => {
       if (!imgToDraw || !imgToDraw.complete) return;
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
       const ratio = Math.max(canvas.width / imgToDraw.width, canvas.height / imgToDraw.height);
       const cx = (canvas.width - imgToDraw.width * ratio) / 2;
       const cy = (canvas.height - imgToDraw.height * ratio) / 2;
