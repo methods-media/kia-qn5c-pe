@@ -1,0 +1,22 @@
+{
+  "navbar": {
+    "exterior": "Exterior",
+    "interior": "Interior",
+    "personalize": "Personalize",
+    "performance": "Performance",
+    "safety": "Safety",
+    "dimensions": "Dimensions",
+    "trims": "Trims",
+    "specs": "Specs",
+    "english": "English",
+    "arabic": "Arabic"
+  },
+  "app": {
+    "specDisclaimer": "Specifications may vary by region.",
+    "bookNow": "Book Now"
+  },
+  "footer": {
+    "tagline": "Every road becomes more than a journey. With the new Sportage L, move forward with confidence and discover what’s next.",
+    "copyright": "Copyright (C) 2026 Kia Corporation. All Rights Reserved."
+  }
+}

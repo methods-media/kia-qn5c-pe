@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Settings, ShieldCheck, ChevronLeft, ChevronRight, Road, Gauge } from 'lucide-react';
 import { ASSET_URL } from '../App';
+import { useTranslation } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,6 +41,8 @@ export default function ExteriorSequence() {
   const uiEndRef = useRef<HTMLDivElement>(null);
 
   const [slideIndex, setSlideIndex] = useState(0);
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
 
   const frameObj = useRef({ frame: 0 });
   const images = useRef<HTMLImageElement[]>([]);
@@ -244,10 +247,10 @@ export default function ExteriorSequence() {
           </button>
         </div>
         <div className="max-w-3xl mb-10 relative z-10 pointer-events-auto">
-          <h2 className="text-white text-4xl md:text-4xl font-bold font-sans mb-4 transition-all duration-300" style={{ textShadow: "0 4px 8px rgba(0,0,0,0.6)" }}>
+          <h2 className="text-white text-4xl md:text-4xl font-bold font-sans mb-4 transition-all duration-300" style={{ textShadow: isArabic ? "-4px 4px 8px rgba(0,0,0,0.6)" : "0 4px 8px rgba(0,0,0,0.6)" }}>
             {sliderData[slideIndex].title}
           </h2>
-          <p className="text-white/80 text-lg md:text-xl font-sans leading-relaxed transition-all duration-300" style={{ textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)" }}>
+          <p className="text-white/80 text-lg md:text-xl font-sans leading-relaxed transition-all duration-300" style={{ textShadow: isArabic ? "-2px 2px 4px rgba(0, 0, 0, 0.5)" : "0 2px 4px rgba(0, 0, 0, 0.5)" }}>
             {sliderData[slideIndex].desc}
           </p>
         </div>

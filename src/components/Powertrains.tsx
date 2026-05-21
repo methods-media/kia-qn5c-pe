@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Settings, Zap, Fuel, Gauge, RefreshCw, Car } from 'lucide-react';
+import { useTranslation } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,6 +58,8 @@ export default function Powertrains() {
     const sectionRef = useRef<HTMLElement>(null);
     const headerRef = useRef<HTMLDivElement>(null);
     const cardsRef = useRef<HTMLDivElement[]>([]);
+    const { i18n } = useTranslation();
+    const isArabic = i18n.language === 'ar';
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -92,7 +95,7 @@ export default function Powertrains() {
                                 : 'hover:border-red-500/80 hover:bg-black/40 hover:shadow-[0_0_40px_rgba(239,68,68,0.15)]'}`}
                     >
                         {/* Background Watermark Icon */}
-                        <div className="absolute -bottom-6 -right-6 opacity-0 group-hover:opacity-[0.05] transition-opacity duration-700 pointer-events-none">
+                        <div className="absolute -bottom-6 -right-6 opacity-0 group-hover:opacity-[0.05] transition-opacity duration-700 pointer-events-none" style={{ transform: isArabic ? 'scaleX(-1)' : 'none' }}>
                             {powertrain.isHEV ? (
                                 <Zap className="w-56 h-56 text-[#c7ff00]" strokeWidth={1} />
                             ) : (

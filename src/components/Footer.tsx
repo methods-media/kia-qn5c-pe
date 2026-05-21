@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Globe } from 'lucide-react';
 import { ASSET_URL } from '../App';
+import { useTranslation } from '../contexts/LanguageContext';
 
 const XLogo = ({ className }: { className?: string }) => (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -52,10 +53,13 @@ export default function Footer() {
     const sectionRef = useRef<HTMLElement>(null);
     const textRefs = useRef<(HTMLParagraphElement | null)[]>([]);
     const bottomElementsRef = useRef<HTMLDivElement>(null);
+    const { t, i18n } = useTranslation();
+
+    const isArabic = i18n.language === 'ar';
 
     // السطور اللي عايزين نعملها Reveal
     const textLines = [
-        "Every road becomes more than a journey. With the new Sportage L, move forward with confidence and discover what’s next."
+        t('footer.tagline')
     ];
 
     useEffect(() => {
@@ -94,10 +98,11 @@ export default function Footer() {
         }, sectionRef);
 
         return () => ctx.revert();
-    }, []);
+    }, [t]);
 
     return (
         <section
+            dir="ltr"
             ref={sectionRef}
             className="relative w-full h-screen flex flex-col justify-between overflow-hidden"
             style={{
@@ -120,7 +125,7 @@ export default function Footer() {
                         <div key={index} className="overflow-hidden">
                             <p
                                 ref={(el) => { textRefs.current[index] = el; }}
-                                className="text-white text-xl md:text-2xl lg:text-2xl font-sans font-medium leading-relaxed drop-shadow-lg"
+                                className={`text-white text-xl md:text-2xl lg:text-2xl font-sans font-medium leading-relaxed drop-shadow-lg ${isArabic ? 'text-right' : ''}`}
                             >
                                 {line}
                             </p>
@@ -132,7 +137,7 @@ export default function Footer() {
                 <div ref={bottomElementsRef} className="relative z-10 pb-12 flex flex-col md:flex-row justify-between items-end gap-8 opacity-0">
 
                     {/* اللوجو وحقوق النشر */}
-                    <div className="flex flex-col gap-2 items-start text-left">
+                    <div className={`flex flex-col gap-2 ${isArabic ? 'items-end text-right' : 'items-start text-left'}`}>
                         {/* لوجو كيا (تقدر تبدله بصورة الـ SVG بتاعك) */}
                         <img
                             src="/Kia_Logo.svg"
@@ -140,7 +145,7 @@ export default function Footer() {
                             className="h-12 cursor-pointer"
                         />
                         <p className="text-white/50 text-xs md:text-sm font-sans tracking-wide">
-                            Copyright (C) 2026 Kia Corporation. All Rights Reserved.
+                            {t('footer.copyright')}
                         </p>
                     </div>
 

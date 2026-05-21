@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Box, ArrowUpToLine, CornerUpLeft, Fuel } from 'lucide-react';
 import { ASSET_URL } from '../App';
+import { useTranslation } from '../contexts/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,6 +34,8 @@ export function Dimensions() {
 
   const [activeDim, setActiveDim] = useState<string>('length');
   const [hasAnimated, setHasAnimated] = useState(false);
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
 
   // أنيميشن الدخول الرئيسية
   useEffect(() => {
@@ -256,7 +259,7 @@ export function Dimensions() {
                 className="group relative opacity-0 bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 hover:border-white/15 rounded-2xl p-6 transition-all duration-500 cursor-default overflow-hidden"
               >
                 {/* Background Icon */}
-                <Icon className="absolute -bottom-4 -right-4 w-28 h-28 text-white/[0.04] group-hover:text-white/[0.08] transition-colors duration-500 pointer-events-none" strokeWidth={1} />
+                <Icon className="absolute -bottom-4 -right-4 w-28 h-28 text-white/[0.04] group-hover:text-white/[0.08] transition-colors duration-500 pointer-events-none" strokeWidth={1} style={{ transform: isArabic ? 'scaleX(-1)' : 'none' }} />
 
                 {/* Hover glow */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none bg-gradient-to-br from-red-500/5 to-transparent" />
